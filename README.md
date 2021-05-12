@@ -1,46 +1,37 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<h3>Установка TS при создании нового проекта</h3>
+npm install create-react-app <имя_проекта> --template typescript
 
-## Available Scripts
+<h3>Примечания</h3>
 
-In the project directory, you can run:
+<b>Дополнительные пакеты</b>
+react-router-dom
+@types/react-router-dom - чтобы TS начал воспринимать библиотеку react-router-dom
 
-### `npm start`
+<b>Компонент TodoList</b>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Если надо сделать какие-то прараметры не обязательными (см. интерфейс в компоненте TodoList), то можно добавить знак вопроса
+1. onToggle?(id: number): void,
+2. onRemove?: (id: number) => void
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+В обрабочике события onChange и др. функции можно передать двумя способами:
+1. onChange={() => onToggle(todo.id)}
+2. onChange={onToggle.bind(null, todo.id)}
 
-### `npm test`
+Во втором случае в результате использования bind возвращается новая функция, которая не вызывается сразу.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<b>Компонент TodosPage</b>
 
-### `npm run build`
+Метод confirm является методом глобального объекта window, поэтому пишем так (см.выше):
+const shoudRemove = window.confirm('Вы уверены, что хотите удалить задачу?');
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Если хотим обратиться к методу confirm, но не хотим обращаться к window, можно воспользоваться синтаксисом TS и записать так перед объявлением компонента:
+declare var confirm: (question: string) => boolean;
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+А внутри компонента уже записать так:
+const shoudRemove = confirm('Вы уверены, что хотите удалить задачу?');
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Таким же образом можно использовать методы из сторонних библиотек.
+    
+    
+    

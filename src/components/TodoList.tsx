@@ -8,13 +8,6 @@ type TodoListProps = {
   onRemove: (id: number) => void
 }
 
-/*
-Если хотим сделать какие-то прараметры не обязательными (см.выше),
-то можно добавить знак вопроса
-  onToggle?(id: number): void,
-  onRemove?: (id: number) => void
-*/
-
 export const TodoList: React.FC<TodoListProps> = ({ todos, onToggle, onRemove }) => {
 
   if (todos.length === 0) {
@@ -42,7 +35,6 @@ export const TodoList: React.FC<TodoListProps> = ({ todos, onToggle, onRemove })
                 <input
                   type="checkbox"
                   checked={todo.completed}
-                  /* onChange={() => onToggle(todo.id)} */
                   onChange={onToggle.bind(null, todo.id)}
                 />
                 <span>{todo.title}</span>
